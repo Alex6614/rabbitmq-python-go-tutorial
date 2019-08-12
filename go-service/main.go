@@ -32,7 +32,7 @@ func main() {
 	// Create the exchange if it doesn't already exist.
 	err = ch.ExchangeDeclare(
 			exchangeName, 	// name
-			"",  		// type
+			"topic",  		// type
 			true,         	// durable
 			false,
 			false,
