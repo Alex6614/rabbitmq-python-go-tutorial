@@ -16,7 +16,7 @@ func failOnError(err error, msg string) {
 func main() {
 	// 'rabbitmq-server' is the network reference we have to the broker, 
 	// thanks to Docker Compose.
-	conn, err := amqp.Dial("amqp://guest:guest@rabbitmq-server:5672/")
+	conn, err := amqp.Dial("")
 	failOnError(err, "Error connecting to the broker")
 	// Make sure we close the connection whenever the program is about to exit.
 	defer conn.Close()
