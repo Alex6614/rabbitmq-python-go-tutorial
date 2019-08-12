@@ -1,0 +1,20 @@
+version: "3.2"
+services:
+    python-service:
+        build: ./python-service
+
+        # Keep it running.  
+        tty: true
+        # Map port 3000 on the host machine to port 3000 of the container.
+        ports:
+            - "3000:3000"
+        volumes:
+            - './python-service:/python-service'
+
+    redis:
+        image: redis
+
+# Host volumes used to store code.
+volumes:
+    python-service:
+    go-service:
