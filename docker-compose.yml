@@ -1,0 +1,44 @@
+version: "3.2"
+services:
+    rabbitmq-server:
+            image: rabbitmq
+            hostname: "rabbitmq-server"
+            environment:
+                RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+                RABBITMQ_DEFAULT_USER: "guest"
+                RABBITMQ_DEFAULT_PASS: "guest"
+                RABBITMQ_DEFAULT_VHOST: "/"
+            ports:
+                - "15672:15672"
+                - "5672:5672"
+            labels:
+                NAME: "rabbitmq-server"
+
+    python-service:
+        build: ./python-service
+        # 'rabbitmq-server' will be available as a network reference inside this service 
+        # and this service will start only after the RabbitMQ service has.
+        depends_on:
+            - rabbitmq-server
+        # Keep it running.  
+        tty: true
+        # Map port 3000 on the host machine to port 3000 of the container.
+        ports:
+            - "3000:3000"
+        volumes:
+            - './python-service:/python-service'
+
+    go-service:
+        build: ./go-service
+        depends_on:
+            - rabbitmq-server
+        tty: true
+        volumes:
+            - './go-service:/go-service'
+    redis:
+        image: redis
+
+# Host volumes used to store code.
+volumes:
+    python-service:
+    go-service:
