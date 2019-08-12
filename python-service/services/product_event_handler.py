@@ -17,11 +17,11 @@ def emit_product_order(name):
 
     channel.basic_publish(exchange=exchange_name,
                           routing_key=routing_key,
-                          body=None,
+                          body=json.dumps(new_data),
                           # Delivery mode 2 makes the broker save the message to disk.
                           properties=pika.BasicProperties(
                             delivery_mode = 2,
                         ))
 
-    print("%r sent to factory %r with data: %r" % (routing_key, exchange_name, None))
+    print("%r sent to factory %r with data: %r" % (routing_key, exchange_name, new_data))
     connection.close()
